@@ -77,7 +77,7 @@ local function CritEntityTakeDamage( ent, dmginfo )
 				return	
 			end
 
-			dmginfo:GetAttacker():ChatPrint( tostring(dmginfo:GetDamage()) .." damage dealt." )
+			--dmginfo:GetAttacker():ChatPrint( tostring(dmginfo:GetDamage()) .." damage dealt." )
 
 		end
 	end

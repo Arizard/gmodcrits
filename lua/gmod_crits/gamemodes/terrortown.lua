@@ -9,6 +9,7 @@ hook.Add("EntityTakeDamage", "GmodCritsTakeDamage", function( ent, dmginfo )
 		else -- "bad" damage
 			att:ModCritChance( dmginfo:GetDamage() * -0.0004 )
 		end
+		
 	end
 
 end)
