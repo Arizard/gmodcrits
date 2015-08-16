@@ -46,3 +46,11 @@ Take a look at <code>terrortown.lua</code> here:
   
   end)
 </pre>
+
+There is also an entity blacklist which is configurable through the use of two global functions: <code>CritGetBlackList( )</code> and <code>CritSetBlackList( TABLE blacklist )</code>. An example is shown below:
+<pre>
+  local blacklist = { "ttt_c4" } -- stop TTT C4 from being OP and critting everyone on the map
+  CritSetBlackList( blacklist )
+</pre>
+
+# ![Thanks for reading, join my steam group by clicking this link!](http://steamcommunity.com/groups/vhs7)
