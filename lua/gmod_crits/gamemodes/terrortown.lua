@@ -13,3 +13,6 @@ hook.Add("EntityTakeDamage", "GmodCritsTakeDamage", function( ent, dmginfo )
 	end
 
 end)
+
+local blacklist = { "ttt_c4" } -- stop TTT C4 from being OP and critting everyone on the map
+CritSetBlackList( blacklist )

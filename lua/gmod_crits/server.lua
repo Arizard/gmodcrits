@@ -5,6 +5,18 @@ CreateConVar("crits_max_chance", "0.15", defaultFlags, "Maximum crit chance")
 CreateConVar("crits_enabled", "1", defaultFlags, "1 = enable, 0 = disable")
 CreateConVar("crits_multiplier", "3", defaultFlags, "Damage multiplier for a critical hit" )
 
+local EntityBlackList = {
+	--"ttt_c4" -- stop C4 from critting people because it's OP.
+}
+
+function CritSetBlackList( tbl ) -- sets the entity blacklist
+	EntityBlackList = table.Copy( tbl )
+end
+
+function CritGetBlackList( ) -- gets the entity blacklist
+	return table.Copy( EntityBlackList )
+end
+
 local PLAYER = FindMetaTable("Player")
 
 function PLAYER:SetCritChance( amt )
@@ -50,10 +62,19 @@ local function CritDoCrit( attacker, victim, effectpos )
 
 	-- effect
 	local ed = EffectData()
-	ed:SetOrigin( effectpos )
+	ed:SetOrigin( effectpos + Vector(0,0,20) )
 	ed:SetAngles( -attacker:EyeAngles() )
 	ed:SetNormal( (-attacker:EyeAngles()):Forward() )
 	util.Effect( "ManhackSparks", ed )
+
+	local ed2 = EffectData()
+	ed2:SetOrigin( effectpos )
+	ed2:SetStart( attacker:GetShootPos() - attacker:EyeAngles():Forward()*2 )
+	ed2:SetAttachment( 1 )
+	ed2:SetEntity( attacker:GetActiveWeapon() )
+	ed2:SetMagnitude( 0.5 )
+
+	util.Effect("ToolTracer", ed)
 
 	attacker:SetCritChance( GetConVarNumber("crits_min_chance") )
 
@@ -63,21 +84,25 @@ local function CritEntityTakeDamage( ent, dmginfo )
 
 	if dmginfo:GetAttacker():IsPlayer() then
 		if ent:IsPlayer() then
+			local inflictor = dmginfo:GetInflictor()
 
-			local shouldCrit = CritShouldCrit( dmginfo:GetAttacker() )
-			if shouldCrit then
-				dmginfo:ScaleDamage( GetConVarNumber( "crits_multiplier" ) ) 
-				
-				CritDoCrit( dmginfo:GetAttacker(), ent, dmginfo:GetDamagePosition() )
+			if (not table.HasValue( EntityBlackList, inflictor:GetClass() )) or true then
+
+				local shouldCrit = CritShouldCrit( dmginfo:GetAttacker() )
+				if shouldCrit then
+					dmginfo:ScaleDamage( GetConVarNumber( "crits_multiplier" ) ) 
+					
+					CritDoCrit( dmginfo:GetAttacker(), ent, dmginfo:GetDamagePosition() )
+				end
+
+				-- tttfix
+				if shouldCrit and dmginfo:GetDamage() == 0 then
+					dmginfo:GetAttacker():SetCritChance(1)
+					return	
+				end
+
+				--dmginfo:GetAttacker():ChatPrint( tostring(dmginfo:GetDamage()) .." damage dealt." )
 			end
-
-			-- tttfix
-			if dmginfo:GetDamage() == 0 then
-				dmginfo:GetAttacker():SetCritChance(1)
-				return	
-			end
-
-			--dmginfo:GetAttacker():ChatPrint( tostring(dmginfo:GetDamage()) .." damage dealt." )
 
 		end
 	end

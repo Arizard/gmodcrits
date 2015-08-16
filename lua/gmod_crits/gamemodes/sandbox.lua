@@ -11,3 +11,4 @@ hook.Add("EntityTakeDamage", "GmodCritsTakeDamage", function( ent, dmginfo )
 	end
 
 end)
+

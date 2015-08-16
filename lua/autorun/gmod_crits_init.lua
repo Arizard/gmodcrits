@@ -11,7 +11,6 @@ if SERVER then
 	local gmode = engine.ActiveGamemode()
 
 	include("gmod_crits/gamemodes/"..gmode..".lua")
-
 else
 
 	include( "gmod_crits/arizard_derma_v2.lua" )
