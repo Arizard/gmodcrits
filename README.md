@@ -1,15 +1,16 @@
-#Fair & Balanced Critical Hits for Garry's Mod
+# Fair & Balanced Critical Hits for Garry's Mod
 This addon adds semi-random critical hits into garrysmod. 
 Works for many gamemodes, already configured for sandbox and TTT.
 If you've played TF2, you'll understand what this means.
 
-#How does it work?
+# How does it work?
 Each player has a unique critical hit chance. By default, this lies between 5% (minimum) and 15% (maximum). 
 If a player deals some damage, their critical hit chance increases proportionally to how much damage they have dealt. 
 In gamemodes such as TTT, if a player damages a teammate, their critical hit chance decreases.
 This is how the critical hits can be random, but not *too* random. The system rewards players who do more damage.
 
-#Configuration
+# Configuration
+
 Use these serverside convars:
 <pre>
 
@@ -53,4 +54,4 @@ There is also an entity blacklist which is configurable through the use of two g
   CritSetBlackList( blacklist )
 </pre>
 
-# ![Thanks for reading, join my steam group by clicking this link!](http://steamcommunity.com/groups/vhs7)
+[Thanks for reading, join my steam group by clicking this link!](http://steamcommunity.com/groups/vhs7)
